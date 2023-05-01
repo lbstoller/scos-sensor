@@ -27,15 +27,18 @@ def test_single_acquisition_archive_download(admin_client, test_scheduler):
     assert response["content-disposition"] == disposition
     assert response["content-type"] == "application/x-tar"
 
-    with tempfile.NamedTemporaryFile() as tf:
+    with tempfile.NamedTemporaryFile(suffix=".sigmf") as tf:
         for content in response.streaming_content:
             tf.write(content)
         tf.flush()
 
         sigmf_archive_contents = sigmf.sigmffile.fromarchive(tf.name)
-        md = sigmf_archive_contents._metadata
-        datafile = sigmf_archive_contents.data_file
-        datafile_actual_size = os.stat(datafile).st_size
+        assert len(sigmf_archive_contents) == 1
+        md = sigmf_archive_contents[0]._metadata
+        datafile = sigmf_archive_contents[0].data_file
+        datafile_actual_size = (
+            len(sigmf_archive_contents[0]) * sigmf_archive_contents[0].get_sample_size()
+        )
         claimed_sha512 = md["global"]["core:sha512"]
         # number_of_sample_arrays = len(md["annotations"])
         number_of_sample_arrays = 1
@@ -48,7 +51,7 @@ def test_single_acquisition_archive_download(admin_client, test_scheduler):
         samples_per_array = cal_annotation["core:sample_count"]
         sample_array_size = samples_per_array * np.float32(0.0).nbytes
         datafile_expected_size = number_of_sample_arrays * sample_array_size
-        actual_sha512 = sigmf.sigmf_hash.calculate_sha512(datafile)
+        actual_sha512 = sigmf_archive_contents[0].calculate_hash()
 
         assert datafile_actual_size == datafile_expected_size
         assert claimed_sha512 == actual_sha512
@@ -66,12 +69,12 @@ def test_multirec_acquisition_archive_download(admin_client, test_scheduler):
     assert response["content-disposition"] == disposition
     assert response["content-type"] == "application/x-tar"
 
-    with tempfile.NamedTemporaryFile() as tf:
+    with tempfile.NamedTemporaryFile(suffix=".sigmf") as tf:
         for content in response.streaming_content:
             tf.write(content)
         tf.flush()
 
-        sigmf_archive_contents = sigmf.archive.extract(tf.name)
+        sigmf_archive_contents = sigmf.archivereader.SigMFArchiveReader(name=tf.name)
         assert len(sigmf_archive_contents) == 10
 
 
@@ -86,9 +89,9 @@ def test_all_acquisitions_archive_download(admin_client, test_scheduler, tmpdir)
     assert response["content-disposition"] == disposition
     assert response["content-type"] == "application/x-tar"
 
-    with tempfile.NamedTemporaryFile() as tf:
+    with tempfile.NamedTemporaryFile(suffix=".sigmf") as tf:
         for content in response.streaming_content:
             tf.write(content)
         tf.flush()
-        sigmf_archive_contents = sigmf.archive.extract(tf.name)
+        sigmf_archive_contents = sigmf.archivereader.SigMFArchiveReader(name=tf.name)
         assert len(sigmf_archive_contents) == 3

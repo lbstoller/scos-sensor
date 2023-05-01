@@ -228,6 +228,6 @@ def build_sigmf_archive(fileobj, schedule_entry_name, acquisitions):
             sigmf_file = sigmf.sigmffile.SigMFFile(metadata=acq.metadata, name=name)
             sigmf_file.set_data_file(tmpdata.name)
 
-            sigmf.archive.SigMFArchive(sigmf_file, path=name, fileobj=fileobj)
+            sigmf.archive.SigMFArchive([sigmf_file], name=name, fileobj=fileobj)
 
     logger.debug("sigmf archive built")

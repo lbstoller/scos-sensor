@@ -98,6 +98,7 @@ jsonschema==3.2.0
     # via
     #   docker-compose
     #   ray
+    #   sigmf
 markupsafe==2.1.2
     # via jinja2
 marshmallow==3.19.0
@@ -180,13 +181,13 @@ ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
 scipy==1.10.1
     # via scos-actions
-scos_actions @ git+https://github.com/NTIA/scos-actions@6.2.3
+scos_actions @ git+https://github.com/NTIA/scos-actions@test_sigmf
     # via
     #   -r requirements.in
     #   scos-tekrsa
-scos_tekrsa @ git+https://github.com/NTIA/scos-tekrsa@3.0.5
+scos_tekrsa @ git+https://github.com/NTIA/scos-tekrsa@test_sigmf
     # via -r requirements.in
-sigmf @ git+https://github.com/NTIA/SigMF@multi-recording-archive
+sigmf @ git+https://github.com/ntia/sigmf-python@multi-recording-archive
     # via scos-actions
 six==1.16.0
     # via
@@ -195,7 +196,6 @@ six==1.16.0
     #   jsonschema
     #   python-dateutil
     #   requests-mock
-    #   sigmf
     #   websocket-client
 sqlparse==0.4.4
     # via

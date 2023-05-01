@@ -159,6 +159,7 @@ jsonschema==3.2.0
     #   -r requirements.txt
     #   docker-compose
     #   ray
+    #   sigmf
 markupsafe==2.1.2
     # via
     #   -r requirements.txt
@@ -300,13 +301,13 @@ scipy==1.10.1
     # via
     #   -r requirements.txt
     #   scos-actions
-scos_actions @ git+https://github.com/NTIA/scos-actions@6.2.3
+scos_actions @ git+https://github.com/NTIA/scos-actions@test_sigmf
     # via
     #   -r requirements.txt
     #   scos-tekrsa
-scos_tekrsa @ git+https://github.com/NTIA/scos-tekrsa@3.0.5
+scos_tekrsa @ git+https://github.com/NTIA/scos-tekrsa@test_sigmf
     # via -r requirements.txt
-sigmf @ git+https://github.com/NTIA/SigMF@multi-recording-archive
+sigmf @ git+https://github.com/ntia/sigmf-python@multi-recording-archive
     # via
     #   -r requirements.txt
     #   scos-actions
@@ -318,7 +319,6 @@ six==1.16.0
     #   jsonschema
     #   python-dateutil
     #   requests-mock
-    #   sigmf
     #   websocket-client
 sqlparse==0.4.4
     # via

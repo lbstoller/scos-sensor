@@ -39,16 +39,16 @@ class TestMeasurementResultHandler:
         assert response.status_code == status.HTTP_200_OK
 
         archive_data = None
-        with tempfile.NamedTemporaryFile() as tf:
+        with tempfile.NamedTemporaryFile(suffix=".sigmf") as tf:
             for content in response.streaming_content:
                 tf.write(content)
             tf.flush()
 
             sigmf_archive_contents = sigmf.sigmffile.fromarchive(tf.name)
-            md = sigmf_archive_contents._metadata
-            archive_data = np.fromfile(
-                sigmf_archive_contents.data_file, dtype=np.complex64
-            )
+            md = sigmf_archive_contents[0]._metadata
+
+            # unable to get read_samples working
+            archive_data = sigmf_archive_contents[0][:]
         return archive_data
 
     @pytest.mark.django_db
