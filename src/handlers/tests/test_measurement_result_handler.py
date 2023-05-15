@@ -45,10 +45,10 @@ class TestMeasurementResultHandler:
             tf.flush()
 
             sigmf_archive_contents = sigmf.sigmffile.fromarchive(tf.name)
-            md = sigmf_archive_contents[0]._metadata
+            md = sigmf_archive_contents._metadata
 
             # unable to get read_samples working
-            archive_data = sigmf_archive_contents[0][:]
+            archive_data = sigmf_archive_contents[:]
         return archive_data
 
     @pytest.mark.django_db

@@ -146,7 +146,7 @@ class TaskResultListViewSet(ListModelMixin, GenericViewSet):
         fname = settings.FQDN + "_" + schedule_entry_name + ".sigmf"
 
         # FileResponse handles closing the file
-        tmparchive = tempfile.TemporaryFile(dir=settings.SCOS_TMP)
+        tmparchive = tempfile.NamedTemporaryFile(dir=settings.SCOS_TMP)
         build_sigmf_archive(tmparchive, schedule_entry_name, acquisitions)
         content_type = "application/x-tar"
         response = FileResponse(
@@ -186,7 +186,7 @@ class TaskResultInstanceViewSet(
             raise Http404
 
         # FileResponse handles closing the file
-        tmparchive = tempfile.TemporaryFile(dir=settings.SCOS_TMP)
+        tmparchive = tempfile.NamedTemporaryFile(dir=settings.SCOS_TMP)
         build_sigmf_archive(tmparchive, schedule_entry_name, acquisitions)
         content_type = "application/x-tar"
         response = FileResponse(
@@ -225,9 +225,9 @@ def build_sigmf_archive(fileobj, schedule_entry_name, acquisitions):
             name = schedule_entry_name + "_" + str(acq.task_result.task_id)
             if multirecording:
                 name += "-" + str(acq.recording_id)
-            sigmf_file = sigmf.sigmffile.SigMFFile(metadata=acq.metadata, name=name)
+            sigmf_file = sigmf.sigmffile.SigMFFile(name, metadata=acq.metadata)
             sigmf_file.set_data_file(tmpdata.name)
 
-            sigmf.archive.SigMFArchive([sigmf_file], name=name, fileobj=fileobj)
+            sigmf.archive.SigMFArchive(sigmf_file, fileobj=fileobj)
 
     logger.debug("sigmf archive built")
