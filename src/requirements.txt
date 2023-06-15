@@ -158,7 +158,7 @@ pyyaml==5.4.1
     # via
     #   docker-compose
     #   ray
-ray==2.3.0
+ray==2.4.0
     # via scos-actions
 requests==2.28.2
     # via
@@ -187,7 +187,7 @@ scos_actions @ git+https://github.com/NTIA/scos-actions@test_sigmf
     #   scos-tekrsa
 scos_tekrsa @ git+https://github.com/NTIA/scos-tekrsa@test_sigmf
     # via -r requirements.in
-sigmf @ git+https://github.com/ntia/sigmf-python@multi-recording-archive
+sigmf @ git+https://github.com/ntia/sigmf-python@multirecording2
     # via scos-actions
 six==1.16.0
     # via
