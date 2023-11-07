@@ -18,6 +18,7 @@ services:
       timeout: 3s
       retries: 1
     shm_size: '16gb'
+    privileged: true
     restart: always
     depends_on:
       - db
@@ -76,7 +77,6 @@ services:
       - SYS_ADMIN  # required for ^ with NVMe drives
     devices:
       - /dev/bus/usb:/dev/bus/usb:rw
-      - /dev/nvme0n1:/dev/nvme0n1:ro
     extra_hosts:
       - "${MANAGER_FQDN}:${MANAGER_IP}"
     command: /entrypoints/api_entrypoint.sh
