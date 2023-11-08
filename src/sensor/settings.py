@@ -108,7 +108,7 @@ else:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECRET_KEY = env.str("SECRET_KEY")
     DEBUG = env.bool("DEBUG", default=False)
-    ALLOWED_HOSTS = env.str("DOMAINS").split() + env.str("IPS").split()
+    ALLOWED_HOSTS = []
     POSTGRES_PASSWORD = env("POSTGRES_PASSWORD")
     ENCRYPTION_KEY = env.str("ENCRYPTION_KEY")
     ASYNC_CALLBACK = env.bool("ASYNC_CALLBACK", default=True)
